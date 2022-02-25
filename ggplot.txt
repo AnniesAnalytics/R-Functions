@@ -1,0 +1,191 @@
+﻿GGPlot2
+This is a package which allows you to build complex plots. You tell it what the name of the dataset it, set the x and y axes, and then layer plot elements together with a + symbol ex:
+ggplot(data = diamonds, aes(x = carat, y = price)) +
+  geom_point()
+The syntax looks like: 
+        ggplot(data = dataset_name, aes(x = column_that_is_x, y = col_that_is_y)) + geom_point()
+
+
+Another example:
+ggplot(data = penguins) + geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) +  geom_point()
+
+
+Aes
+aes specifies the aesthetics of your graph. 
+
+
+Types of functions
+geom_point() This adds a layer of points to your plot, which creates a scatterplot.
+geom_bar( ) makes a bar graph
+geom_line( ) makes a line graph
+geom_smooth() makes a smooth line
+geom_jitter() This is similar to geom_point but adds random noise to make the points easier to see.
+
+
+You can combine these functions on a graph by writing out the function for the first and then adding a + and writing out the next one. For ex:
+ggplot(data=penguins)+
+geom_point(mapping=aes(x=flipper_length, y=body_mass)) +
+geom_smooth(mapping=aes(x=flipper_length, y=body_mass)) 
+
+
+Color
+To change the color of each data point based on another variable, use  color = variable . ex:
+ggplot(data = diamonds, aes(x = carat, y = price, color = cut)) +
+    geom_point()
+
+
+ggplot(data = diamonds)+
+geom_bar(mapping=aes(x=cut,color=cut))
+To do this another way, you could replace color=cut with fill=cut. Then the entire bars would be colored instead of just the outline.  If you were to fill a different variable than the one on the x axis, it would create a stacked bar chart with different colors on top of eachother in each stack. This would look like:
+geom_bar(mapping=aes(x=cut,fill=clarity)
+
+
+
+
+Facet_wrap
+To make a separate graph for each different color variable, use facet_wrap() . ex:
+ggplot(data = diamonds, aes(x = carat, y = price, color = cut)) +
+  geom_point() +
+  facet_wrap(~cut)
+
+
+Another example:
+ggplot(data=penguins, aes(x=flipper_length, y=body_mass)) +
+geom_point(aes(color=species)) +
+facet_wrap(~species)
+Or
+ggplot(data=diamonds)+geom_bar(mapping=aes(x=color,fill=cut))+
+        facet_wrap(~cut)
+
+
+Another with different charts for each:
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+
+
+Or
+
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~deposit_type~market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+In this, you are pulling from hotel bookings. You are making a bar chart and the column distribution channel is in the x axis. You are making separate grids for each deposit type and market segment. You are also changing the theme to make it more readable. 
+
+
+
+
+
+
+Facet_grid
+Facet_grid will split the plot into facets vertically by the values of the first variable and horizontally by the values of the second variable. You can also do it with one variable.
+ggplot(data=diamonds)+
+geom_point(mapping=aes(x=flipper_length,y=_body_mass,color=species))+
+facet_grid(sex~species)
+
+
+Layers
+ggplot(data=penguins)+geom_point(mapping=aes(x=flipper_length, y=body_mass, color=species)) 
+
+
+You can replace color with shape to change the shape of the points. Or, keep both and it will change the shape and color by species. You can use alpha to change the transparency of the dots which helps when you have a dense plot.
+
+
+ggplot(data=penguins)+geom_point(mapping=aes(x=flipper_length, y=body_mass, alpha=species)) 
+
+
+If you want to map the color onto all of the points (and not tie it to a specific variable) you can map it outside the aes function.
+
+
+ggplot(data=penguins)+geom_point(mapping=aes(x=flipper_length, y=body_mass), color=”purple”) 
+
+
+Here’s an example of how aesthetic attributes are displayed in R:
+ggplot(data, aes(x=distance, y= dep_delay, color=carrier, size=air_time, shape = carrier)) +
+      geom_point()
+
+
+Line Type
+When making a geom_smooth, you can change the line type based on species with each getting its own line. 
+geom_smooth(mapping=aes(x=flipper_length, y=body_mass,linetype=species)) 
+
+
+Type of smoothing
+	Description
+	Example code
+	Loess smoothing
+	The loess smoothing process is best for smoothing 
+plots with less than 1000 points.
+	ggplot(data, aes(x=, y=))+ 
+  geom_point() +           
+  geom_smooth(method="loess")
+	Gam smoothing
+	Gam smoothing, or generalized additive model 
+smoothing, is useful for smoothing plots with a large
+number of points. 
+	ggplot(data, aes(x=, y=)) + 
+  geom_point() +        
+  geom_smooth(method="gam", 
+formula = y ~s(x))
+	Geom_Bar
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel))
+
+
+Stacked bar chart of the same data:
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel,fill=deposit_type))
+
+
+Or
+
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel,fill=market_segment))
+
+
+Rotate Text
+To rotate the text at the bottom of a bar chart to make it readable use theme
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~deposit_type) +
+  theme(axis.text.x = element_text(angle = 45))
+
+
+Add text to the graph like title
+Title, subtitle, caption:
+ggplot(data=penguins)+
+geom_point(mapping=aes(x=flipper_length,y=body_mass,color=species))+
+labs(title=”Palmer Penguins: Body Mass vs. Flipper Length”,subtitle=”Sample of Three Penguin Species”,
+caption=“Data Collected by Dr. KG”)+
+annotate(“text”,x=20,y=3500, label=”The Gentoos Are the Largest”,color=”purple”,fontface=”bold”,size=4.5,angle=25)
+
+
+Store your plot
+To store it to come back to later copy the code for the plot, and name it. For example you could name it p. 
+p <- (paste code here)
+
+
+IF you copied the code before the annotation was made, now you could just use p and then add the annotation:
+p+annotate(“text”,x=20,y=3500, label=”The Gentoos Are the Largest”,color=”purple”,fontface=”bold”,size=4.5,angle=25)
+
+
+Filtering Data
+Filtering your data before you plot it allows you to focus on specific subsets of your data and gain more targeted insights. To do this, just include the dplyr filter() function in your ggplot syntax. 
+Example code
+	data %>%
+    filter(variable1 == "DS") %>%  
+    ggplot(aes(x = weight, y = variable2, colour = variable1)) +  
+    geom_point(alpha = 0.3,  position = position_jitter()) + stat_smooth(method = "lm")
+	
+
+
+
+
+
+Save Data
+Save your plot as a .png file by using ggsave
+ggsave(“Three Penguin Species.png”)
