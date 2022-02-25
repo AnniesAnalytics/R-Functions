@@ -11,11 +11,11 @@ ggplot(data = penguins) + geom_point(mapping = aes(x = flipper_length_mm, y = bo
 ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g)) +  geom_point()
 
 
-Aes
+# Aes
 aes specifies the aesthetics of your graph. 
 
 
-Types of functions
+# Types of functions
 geom_point() This adds a layer of points to your plot, which creates a scatterplot.
 geom_bar( ) makes a bar graph
 geom_line( ) makes a line graph
@@ -29,13 +29,13 @@ geom_point(mapping=aes(x=flipper_length, y=body_mass)) +
 geom_smooth(mapping=aes(x=flipper_length, y=body_mass)) 
 
 
-Color
+# Color
 To change the color of each data point based on another variable, use  color = variable . ex:
 ggplot(data = diamonds, aes(x = carat, y = price, color = cut)) +
     geom_point()
 
 
-ggplot(data = diamonds)+
+# ggplot(data = diamonds)+
 geom_bar(mapping=aes(x=cut,color=cut))
 To do this another way, you could replace color=cut with fill=cut. Then the entire bars would be colored instead of just the outline.  If you were to fill a different variable than the one on the x axis, it would create a stacked bar chart with different colors on top of eachother in each stack. This would look like:
 geom_bar(mapping=aes(x=cut,fill=clarity)
@@ -43,14 +43,14 @@ geom_bar(mapping=aes(x=cut,fill=clarity)
 
 
 
-Facet_wrap
+# Facet_wrap
 To make a separate graph for each different color variable, use facet_wrap() . ex:
 ggplot(data = diamonds, aes(x = carat, y = price, color = cut)) +
   geom_point() +
   facet_wrap(~cut)
 
 
-Another example:
+# Another example:
 ggplot(data=penguins, aes(x=flipper_length, y=body_mass)) +
 geom_point(aes(color=species)) +
 facet_wrap(~species)
@@ -80,14 +80,14 @@ In this, you are pulling from hotel bookings. You are making a bar chart and the
 
 
 
-Facet_grid
+# Facet_grid
 Facet_grid will split the plot into facets vertically by the values of the first variable and horizontally by the values of the second variable. You can also do it with one variable.
 ggplot(data=diamonds)+
 geom_point(mapping=aes(x=flipper_length,y=_body_mass,color=species))+
 facet_grid(sex~species)
 
 
-Layers
+# Layers
 ggplot(data=penguins)+geom_point(mapping=aes(x=flipper_length, y=body_mass, color=species)) 
 
 
@@ -108,7 +108,7 @@ ggplot(data, aes(x=distance, y= dep_delay, color=carrier, size=air_time, shape =
       geom_point()
 
 
-Line Type
+# Line Type
 When making a geom_smooth, you can change the line type based on species with each getting its own line. 
 geom_smooth(mapping=aes(x=flipper_length, y=body_mass,linetype=species)) 
 
@@ -147,7 +147,7 @@ ggplot(data = hotel_bookings) +
   geom_bar(mapping = aes(x = distribution_channel,fill=market_segment))
 
 
-Rotate Text
+## Rotate Text
 To rotate the text at the bottom of a bar chart to make it readable use theme
 ggplot(data = hotel_bookings) +
   geom_bar(mapping = aes(x = distribution_channel)) +
@@ -155,7 +155,7 @@ ggplot(data = hotel_bookings) +
   theme(axis.text.x = element_text(angle = 45))
 
 
-Add text to the graph like title
+## Add text to the graph like title
 Title, subtitle, caption:
 ggplot(data=penguins)+
 geom_point(mapping=aes(x=flipper_length,y=body_mass,color=species))+
@@ -164,7 +164,7 @@ caption=“Data Collected by Dr. KG”)+
 annotate(“text”,x=20,y=3500, label=”The Gentoos Are the Largest”,color=”purple”,fontface=”bold”,size=4.5,angle=25)
 
 
-Store your plot
+# Store your plot
 To store it to come back to later copy the code for the plot, and name it. For example you could name it p. 
 p <- (paste code here)
 
@@ -173,7 +173,7 @@ IF you copied the code before the annotation was made, now you could just use p 
 p+annotate(“text”,x=20,y=3500, label=”The Gentoos Are the Largest”,color=”purple”,fontface=”bold”,size=4.5,angle=25)
 
 
-Filtering Data
+# Filtering Data
 Filtering your data before you plot it allows you to focus on specific subsets of your data and gain more targeted insights. To do this, just include the dplyr filter() function in your ggplot syntax. 
 Example code
 	data %>%
@@ -183,9 +183,6 @@ Example code
 	
 
 
-
-
-
-Save Data
+# Save Data
 Save your plot as a .png file by using ggsave
 ggsave(“Three Penguin Species.png”)
